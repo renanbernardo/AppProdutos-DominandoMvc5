@@ -18,8 +18,8 @@ namespace DevIo.Infra.Data.Mappings
                 .HasMaxLength(500);
 
             Property(p => p.Imagem)
-                .IsRequired()
-                .HasMaxLength(100);
+                .IsRequired();
+                //.HasMaxLength(100);
 
             HasRequired(p => p.Fornecedor)
                 .WithMany(f => f.Produtos)

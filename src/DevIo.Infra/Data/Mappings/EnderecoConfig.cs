@@ -22,16 +22,16 @@ namespace DevIo.Infra.Data.Mappings
                 .HasMaxLength(8)
                 .IsFixedLength();
 
-            Property(e => e.Complemento)
-                .HasMaxLength(250);
+            //Property(e => e.Complemento)
+                //.HasMaxLength(100);
 
             Property(e => e.Bairro)
-                .IsRequired()
-                .HasMaxLength(100);
+                .IsRequired();
+            //.HasMaxLength(100);
 
             Property(e => e.Cidade)
-                .IsRequired()
-                .HasMaxLength(100);
+                .IsRequired();
+                //.HasMaxLength(100);
 
             Property(e => e.Estado)
                 .IsRequired()
