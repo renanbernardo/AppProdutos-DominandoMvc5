@@ -1,4 +1,5 @@
-﻿using DevIo.Business.Core.Services;
+﻿using DevIo.Business.Core.Notifications;
+using DevIo.Business.Core.Services;
 using DevIo.Business.Models.Produtos.Validations;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,8 @@ namespace DevIo.Business.Models.Produtos.Services
     {
         private readonly IProdutoRepository _produtoRepository;
 
-        public ProdutoService(IProdutoRepository produtoRepository)
+        public ProdutoService(IProdutoRepository produtoRepository,
+                              INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
         }

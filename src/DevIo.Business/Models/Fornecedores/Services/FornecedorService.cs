@@ -1,9 +1,8 @@
-﻿using DevIo.Business.Core.Services;
+﻿using DevIo.Business.Core.Notifications;
+using DevIo.Business.Core.Services;
 using DevIo.Business.Models.Fornecedores.Validations;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DevIo.Business.Models.Fornecedores.Services
@@ -13,7 +12,9 @@ namespace DevIo.Business.Models.Fornecedores.Services
         private readonly IFornecedorRepository _fornecedorRepository;
         private readonly IEnderecoRepository _enderecoRepository;
 
-        public FornecedorService(IFornecedorRepository fornecedorRepository, IEnderecoRepository enderecoRepository)
+        public FornecedorService(IFornecedorRepository fornecedorRepository, 
+                                 IEnderecoRepository enderecoRepository,
+                                 INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _enderecoRepository = enderecoRepository;
@@ -49,7 +50,11 @@ namespace DevIo.Business.Models.Fornecedores.Services
         {
             var fornecedor = await _fornecedorRepository.ObterFornecedorProdutosEndereco(id);
 
-            if (fornecedor.Produtos.Any()) return;
+            if (fornecedor.Produtos.Any())
+            {
+                Notificar("O fornecedor possui produtos cadastrados.");
+                return;
+            }
 
             if (fornecedor.Endereco != null)
             {
@@ -63,7 +68,10 @@ namespace DevIo.Business.Models.Fornecedores.Services
         {
             var fornecedorAtual = await _fornecedorRepository.Buscar(f => f.Documento == fornecedor.Documento && f.Id != fornecedor.Id);
 
-            return fornecedorAtual.Any();
+            if (!fornecedorAtual.Any()) return false;
+
+            Notificar("Já existe um fornecedor com este documento informado.");
+            return true;
         }
 
         public void Dispose()
