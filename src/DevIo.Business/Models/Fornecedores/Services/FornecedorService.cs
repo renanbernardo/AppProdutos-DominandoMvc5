@@ -26,7 +26,7 @@ namespace DevIo.Business.Models.Fornecedores.Services
 
             if (await FornecedorExistente(fornecedor)) return;
 
-            await _fornecedorRepository.Adicinar(fornecedor);
+            await _fornecedorRepository.Adicionar(fornecedor);
         }
 
         public async Task Atualizar(Fornecedor fornecedor)

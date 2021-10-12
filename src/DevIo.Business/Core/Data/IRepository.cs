@@ -8,7 +8,7 @@ namespace DevIo.Business.Core.Data
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : Entity
     {
-        Task Adicinar(TEntity entity);
+        Task Adicionar(TEntity entity);
 
         Task<TEntity> ObterPorId(Guid id);
 
