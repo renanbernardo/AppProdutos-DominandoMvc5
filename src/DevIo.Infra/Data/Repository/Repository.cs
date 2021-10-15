@@ -36,7 +36,7 @@ namespace DevIo.Infra.Data.Repository
             return await DbSet.AsNoTracking().Where(predicate).ToListAsync();
         }  
 
-        public virtual async Task Adicinar(TEntity entity)
+        public virtual async Task Adicionar(TEntity entity)
         {
             DbSet.Add(entity);
             await SaveChanges();
