@@ -27,11 +27,10 @@ namespace DevIo.AppMvc.ViewModels
         [DisplayName("Descrição")]
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [StringLength(1000, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 3)]
-
         public string Descricao { get; set; }
 
-        [DisplayName("Imagem do Produto")]
-        public HttpPostedFileBase ImagemUpload { get; set; }
+        //[DisplayName("Imagem do Produto")]
+        //public HttpPostedFileBase ImagemUpload { get; set; }
 
         public string Imagem { get; set; }
 
@@ -44,8 +43,8 @@ namespace DevIo.AppMvc.ViewModels
         [DisplayName("Ativo?")]
         public bool Ativo { get; set; }
 
-        public FornecedorViewModel Fornecedor { get; set; }
+        //public FornecedorViewModel Fornecedor { get; set; }
 
-        public IEnumerable<FornecedorViewModel> Fornecedores { get; set; }
+        //public IEnumerable<FornecedorViewModel> Fornecedores { get; set; }
     }
 }
