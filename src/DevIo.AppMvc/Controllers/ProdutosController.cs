@@ -13,6 +13,7 @@ using DevIo.Business.Models.Produtos;
 using DevIo.Business.Models.Produtos.Services;
 using DevIo.Infra.Data.Repository;
 using DevIo.Business.Core.Notifications;
+using AutoMapper;
 
 namespace DevIo.AppMvc.Controllers
 {
@@ -20,27 +21,28 @@ namespace DevIo.AppMvc.Controllers
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IProdutoService _produtoService;
+        private readonly IMapper _mapper;
 
         public ProdutosController()
         {
-            _produtoRepository = new ProdutoRepository();
-            _produtoService = new ProdutoService(_produtoRepository, new Notificador());
+
         }
 
         public async Task<ActionResult> Index()
         {
-            return View(await _produtoRepository.ObterTodos());
+            return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos()));
         }
 
 
         public async Task<ActionResult> Details(Guid id)
         {
-            var produto = await _produtoRepository.ObterPorId(id);
+            var produtoViewModel = await ObterProduto(id);
             
             if (produtoViewModel == null)
             {
                 return HttpNotFound();
             }
+
             return View(produtoViewModel);
         }
 
@@ -59,8 +61,8 @@ namespace DevIo.AppMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                _produtoService.Adicionar(produtoViewModel);
-           
+                await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+
                 return RedirectToAction("Index");
             }
 
@@ -122,6 +124,11 @@ namespace DevIo.AppMvc.Controllers
             db.ProdutoViewModels.Remove(produtoViewModel);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        private async Task<ProdutoViewModel> ObterProduto(Guid id)
+        {
+            var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoFornecedor(id));
         }
 
         protected override void Dispose(bool disposing)
