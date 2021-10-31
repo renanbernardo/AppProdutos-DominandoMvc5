@@ -1,4 +1,5 @@
 ﻿using DevIo.Business.Models.Fornecedores;
+using DevIo.Infra.Data.Context;
 using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
@@ -7,6 +8,8 @@ namespace DevIo.Infra.Data.Repository
 {
     public class FornecedorRepository : Repository<Fornecedor>, IFornecedorRepository
     {
+        public FornecedorRepository(AppProdutosContext context) : base(context) { }
+        
         public async Task<Fornecedor> ObterFornecedorEndereco(Guid id)
         {
             return await Db.Fornecedores.AsNoTracking()
