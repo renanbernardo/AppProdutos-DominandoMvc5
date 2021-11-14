@@ -9,6 +9,7 @@ using AutoMapper;
 using DevIo.Business.Models.Fornecedores;
 using System.Web;
 using System.IO;
+using DevIo.Business.Core.Notifications;
 
 namespace DevIo.AppMvc.Controllers
 {
@@ -22,7 +23,8 @@ namespace DevIo.AppMvc.Controllers
         public ProdutosController(IProdutoRepository produtoRepository,
                                   IProdutoService produtoService,
                                   IFornecedorRepository fornecedorRepository,
-                                  IMapper mapper)
+                                  IMapper mapper,
+                                  INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
             _produtoService = produtoService;

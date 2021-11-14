@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DevIo.AppMvc.ViewModels;
+using DevIo.Business.Core.Notifications;
 using DevIo.Business.Models.Fornecedores;
 using DevIo.Business.Models.Fornecedores.Services;
 using System;
@@ -17,7 +18,8 @@ namespace DevIo.AppMvc.Controllers
 
         public FornecedoresController(IFornecedorRepository fornecedorRepository,
                                       IFornecedorService fornecedorService,
-                                      IMapper mapper)
+                                      IMapper mapper,
+                                      INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _fornecedorService = fornecedorService;
@@ -58,8 +60,9 @@ namespace DevIo.AppMvc.Controllers
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
             await _fornecedorService.Adicionar(fornecedor);
 
-            // TODO:
-            // e se nao der certo?
+            if (!OperacaoValida()) return View(fornecedorViewModel);
+
+            //ViewBag.Sucesso = "Mensagem feliz";
 
             return RedirectToAction("Index");
         }
