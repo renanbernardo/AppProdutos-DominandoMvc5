@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace DevIo.AppMvc.Controllers
 {
+    [Authorize]
     public class FornecedoresController : BaseController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
@@ -26,6 +27,7 @@ namespace DevIo.AppMvc.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [Route("lista-de-fornecedores")]
         public async Task<ActionResult> Index()
         {
@@ -97,6 +99,7 @@ namespace DevIo.AppMvc.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("excluir-fornecedor/{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
@@ -110,6 +113,7 @@ namespace DevIo.AppMvc.Controllers
             return View(fornecedorViewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("excluir-fornecedor/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
