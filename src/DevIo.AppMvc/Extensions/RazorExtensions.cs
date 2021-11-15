@@ -23,5 +23,20 @@ namespace DevIo.AppMvc.Extensions
 
             return urlTarget == urlEmUso || urlTarget2 == urlEmUso;
         }
+
+        public static bool PermitirExibicao(this WebViewPage page, string claimName, string claimValue)
+        {
+            return CustomAuthorization.ValidarClaimUsuario(claimName, claimValue);
+        }
+
+        public static MvcHtmlString PermitirExibicao(this MvcHtmlString value, string claimName, string claimValue)
+        {
+            return CustomAuthorization.ValidarClaimUsuario(claimName, claimValue) ? value : MvcHtmlString.Empty;
+        }
+
+        public static string ActionComPermissao(this UrlHelper urlHelper, string actionName, string controllerName, object routeValues, string claimName, string claimValue)
+        {
+            return CustomAuthorization.ValidarClaimUsuario(claimName, claimValue) ? urlHelper.Action(actionName, controllerName, routeValues) : "";
+        }
     }
 }
